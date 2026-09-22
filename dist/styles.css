@@ -26,11 +26,11 @@
 .hero{background:#14051e url("assets/animacao-ossos-01.png") center/cover no-repeat}
 .hero-film{opacity:0;pointer-events:none}
 .hero-film.is-playing{opacity:1}
-.hero-play{position:absolute;z-index:5;right:20px;bottom:20px;padding:10px 16px;border:1px solid var(--gold);border-radius:30px;background:#100318;color:var(--gold-light);cursor:pointer;font-size:.75rem}
-.hero-play[hidden]{display:none}
+
+
 @media(max-width:560px){
 .hero h1{line-height:1}
 .hero h1 span{display:block;line-height:1.1}
 .hero h1 b{display:block;font-size:.16em;line-height:1.4;margin:1.5rem 0 0;letter-spacing:.2em}
 }
-@media(prefers-reduced-motion:reduce){.hero-film{display:none}.hero-play{display:none}}
+@media(prefers-reduced-motion:reduce){.hero-film{display:none}}

@@ -34,3 +34,14 @@
 .hero h1 b{display:block;font-size:.16em;line-height:1.4;margin:1.5rem 0 0;letter-spacing:.2em}
 }
 @media(prefers-reduced-motion:reduce){.hero-film{display:none}}
+
+/* Avoid filtered video and oversized animated SVG layers in mobile WebKit. */
+.hero{isolation:isolate}
+.hero-poster{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;z-index:0}
+.hero-film{z-index:1;filter:none}
+.hero-glow{z-index:2;pointer-events:none}
+.hero-grain{display:none}
+.hero-content{z-index:3}
+@media(max-width:850px){
+  .site-header,.site-header nav,.button-ghost,.sound-toggle{backdrop-filter:none;-webkit-backdrop-filter:none}
+}

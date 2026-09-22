@@ -34,7 +34,13 @@ if(heroVideo){
     heroVideo.muted=true;
     heroVideo.play().catch(showPoster);
   };
-  heroVideo.addEventListener('playing',()=>heroVideo.classList.add('is-playing'));
+  heroVideo.addEventListener('playing',()=>{
+    const reveal=()=>{if(!heroVideo.paused && heroVideo.readyState>=2)heroVideo.classList.add('is-playing');};
+    if('requestVideoFrameCallback' in heroVideo)heroVideo.requestVideoFrameCallback(reveal);
+    else reveal();
+  });
+  heroVideo.addEventListener('waiting',showPoster);
+  heroVideo.addEventListener('stalled',showPoster);
   heroVideo.addEventListener('pause',showPoster);
   heroVideo.addEventListener('error',showPoster);
   reducedMotion.addEventListener('change',startHero);

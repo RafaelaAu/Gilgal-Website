@@ -26,19 +26,17 @@ function stopSoundscape(){clearInterval(soundscapeTimer);soundscapeTimer=null;if
 soundButton?.addEventListener('click',()=>{const active=soundButton.getAttribute('aria-pressed')==='true';if(active){stopSoundscape();soundButton.setAttribute('aria-pressed','false');soundLabel.textContent='Ativar som'}else{startSoundscape();soundButton.setAttribute('aria-pressed','true');soundLabel.textContent='Desativar som'}});
 
 const heroVideo=document.querySelector('.hero-film');
-const heroPlay=document.querySelector('.hero-play');
 const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
-if(heroVideo && heroPlay){
-  const showPoster=()=>{heroVideo.classList.remove('is-playing');heroPlay.hidden=reducedMotion.matches;};
+if(heroVideo){
+  const showPoster=()=>heroVideo.classList.remove('is-playing');
   const startHero=()=>{
     if(reducedMotion.matches){heroVideo.pause();showPoster();return;}
     heroVideo.muted=true;
     heroVideo.play().catch(showPoster);
   };
-  heroVideo.addEventListener('playing',()=>{heroVideo.classList.add('is-playing');heroPlay.hidden=true;});
+  heroVideo.addEventListener('playing',()=>heroVideo.classList.add('is-playing'));
   heroVideo.addEventListener('pause',showPoster);
-  heroVideo.addEventListener('error',()=>{showPoster();heroPlay.hidden=true;});
-  heroPlay.addEventListener('click',startHero);
+  heroVideo.addEventListener('error',showPoster);
   reducedMotion.addEventListener('change',startHero);
   startHero();
 }

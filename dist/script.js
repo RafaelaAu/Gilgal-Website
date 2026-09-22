@@ -24,3 +24,21 @@ function boneClick(ctx,when,volume=.08){const osc=ctx.createOscillator();const g
 function startSoundscape(){audioContext=new(window.AudioContext||window.webkitAudioContext)();const ctx=audioContext;const master=ctx.createGain();master.gain.value=.13;master.connect(ctx.destination);const low=ctx.createOscillator();const lowGain=ctx.createGain();low.type='sine';low.frequency.value=46;lowGain.gain.value=.32;low.connect(lowGain).connect(master);low.start();const high=ctx.createOscillator();const highGain=ctx.createGain();high.type='sine';high.frequency.value=92;highGain.gain.value=.08;high.connect(highGain).connect(master);high.start();ambience={low,high,master};const sequence=()=>{const now=ctx.currentTime+.05;[0,.12,.31,.55,1.1,1.52,2.05].forEach((delay,index)=>boneClick(ctx,now+delay,.035+(index%3)*.012))};sequence();soundscapeTimer=setInterval(sequence,7000)}
 function stopSoundscape(){clearInterval(soundscapeTimer);soundscapeTimer=null;if(ambience){ambience.master.gain.exponentialRampToValueAtTime(.0001,audioContext.currentTime+.25);setTimeout(()=>audioContext?.close(),300)}audioContext=null;ambience=null}
 soundButton?.addEventListener('click',()=>{const active=soundButton.getAttribute('aria-pressed')==='true';if(active){stopSoundscape();soundButton.setAttribute('aria-pressed','false');soundLabel.textContent='Ativar som'}else{startSoundscape();soundButton.setAttribute('aria-pressed','true');soundLabel.textContent='Desativar som'}});
+
+const heroVideo=document.querySelector('.hero-film');
+const heroPlay=document.querySelector('.hero-play');
+const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+if(heroVideo && heroPlay){
+  const showPoster=()=>{heroVideo.classList.remove('is-playing');heroPlay.hidden=reducedMotion.matches;};
+  const startHero=()=>{
+    if(reducedMotion.matches){heroVideo.pause();showPoster();return;}
+    heroVideo.muted=true;
+    heroVideo.play().catch(showPoster);
+  };
+  heroVideo.addEventListener('playing',()=>{heroVideo.classList.add('is-playing');heroPlay.hidden=true;});
+  heroVideo.addEventListener('pause',showPoster);
+  heroVideo.addEventListener('error',()=>{showPoster();heroPlay.hidden=true;});
+  heroPlay.addEventListener('click',startHero);
+  reducedMotion.addEventListener('change',startHero);
+  startHero();
+}

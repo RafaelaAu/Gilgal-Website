@@ -8,7 +8,7 @@ syncHeader();window.addEventListener('scroll',syncHeader,{passive:true});
 document.addEventListener('keydown',event=>{if(event.key==='Escape'){menu?.classList.remove('open');toggle?.setAttribute('aria-expanded','false')}});
 document.addEventListener('click',event=>{if(menu?.classList.contains('open')&&!menu.contains(event.target)&&!toggle?.contains(event.target)){menu.classList.remove('open');toggle?.setAttribute('aria-expanded','false')}});
 
-const target=new Date('2027-09-18T08:00:00-03:00').getTime();
+const target=new Date('2027-09-17T08:00:00-03:00').getTime();
 function updateCountdown(){const distance=Math.max(0,target-Date.now());document.querySelector('[data-days]').textContent=String(Math.floor(distance/86400000));document.querySelector('[data-hours]').textContent=String(Math.floor(distance%86400000/3600000)).padStart(2,'0');document.querySelector('[data-minutes]').textContent=String(Math.floor(distance%3600000/60000)).padStart(2,'0')}
 updateCountdown();setInterval(updateCountdown,60000);
 
